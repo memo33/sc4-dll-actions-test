@@ -1,0 +1,22 @@
+name: CI/CD
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    uses: memo33/sc4-dll-actions/.github/workflows/attested-build.yaml@build-workflow
+    with:
+      build-script: |
+        make
+        mkdir build-output
+        cp -p src/NAM.{dll,ini} README.md 'Third Party Notices.txt' LICENSE.txt build-output
+      build-output: build-output
+      artifact-name: NAM-dll-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}.zip
+      xwin-path: vendor/xwin
+    permissions:
+      id-token: write                # for attestation and deployment
+      attestations: write            # for attestation
+      artifact-metadata: write       # for attestation
+      contents: write                # for deploying a release
