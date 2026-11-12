@@ -1,0 +1,26 @@
+name: CI/CD
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    uses: memo33/sc4-dll-actions/.github/workflows/attested-build.yaml@build-workflow
+    with:
+      build-os: windows-2022
+      compiler: MSVC
+      install-cmake: true
+      build-shell: bash
+      build-script: |
+        cmake --preset vs2022-win32-release -DSC4RS_BUILD_SAMPLES=ON "-DSC4RS_RELEASE_VERSION=v0.0.1"
+        cmake --build --preset vs2022-win32-release-all
+        mkdir build-output
+        cp -p cmake-build-release-visual-studio/Release/SC4RenderServices.dll SC4RenderServices.ini build-output
+      build-output: build-output
+      artifact-name: render-services-test-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}.zip
+    permissions:
+      id-token: write                # for attestation and deployment
+      attestations: write            # for attestation
+      artifact-metadata: write       # for attestation
+      contents: write                # for deploying a release
