@@ -1,0 +1,36 @@
+name: experiment
+
+on:
+  push:
+    branches: [ experiment ]
+
+jobs:
+  # experiment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # - run: |
+  #     #     find /usr -name 'clang-cl*'
+  #     - run: |
+  #         ls -la /usr/bin/clang*
+  #         ls -la /usr/bin/lld*
+  #     - run: |
+  #         sudo ln -s clang /usr/bin/clang-cl
+  #     - run: |
+  #         clang --version
+  #         clang-cl --version
+  #         # lld-link --version
+
+
+  experiment2:
+    runs-on: windows-latest
+    steps:
+      - if: ${{ always() }}
+        shell: bash
+        run: |
+          which clang
+          clang --version
+      - if: ${{ always() }}
+        shell: bash
+        run: |
+          which clang-cl
+          clang-cl --version
