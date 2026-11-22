@@ -6,10 +6,9 @@ on:
 
 jobs:
   build:
-    uses: memo33/sc4-dll-actions/.github/workflows/attested-build.yaml@build-workflow
+    uses: memo33/sc4-dll-actions/.github/workflows/attested-build.yaml@v1
     with:
       build-os: windows-2022
-      compiler: MSVC
       install-cmake: true
       build-shell: bash
       build-script: |
@@ -19,6 +18,7 @@ jobs:
         cp -p cmake-build-release-visual-studio/Release/SC4RenderServices.dll SC4RenderServices.ini build-output
       build-output: build-output
       artifact-name: render-services-test-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}.zip
+      attestation-subject-path: SC4RenderServices.dll
     permissions:
       id-token: write                # for attestation and deployment
       attestations: write            # for attestation
