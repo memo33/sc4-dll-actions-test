@@ -11,13 +11,13 @@ jobs:
       build-os: windows-2022
       install-cmake: true
       install-dbpf-cli: true
-      build-shell: bash
+      build-shell: pwsh
       build-script: |
-        dbpf-import.bat --help
-        cmake --preset vs2022-win32-release -DSC4RS_BUILD_SAMPLES=ON "-DSC4RS_RELEASE_VERSION=v0.0.1"
-        cmake --build --preset vs2022-win32-release-all
-        mkdir build-output
-        cp -p cmake-build-release-visual-studio/Release/SC4RenderServices.dll SC4RenderServices.ini build-output
+        dbpf-import --help
+      # cmake --preset vs2022-win32-release -DSC4RS_BUILD_SAMPLES=ON "-DSC4RS_RELEASE_VERSION=v0.0.1"
+      # cmake --build --preset vs2022-win32-release-all
+      # mkdir build-output
+      # cp -p cmake-build-release-visual-studio/Release/SC4RenderServices.dll SC4RenderServices.ini build-output
       build-output: build-output
       artifact-name: render-services-test-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}.zip
       attestation-subject-path: SC4RenderServices.dll
